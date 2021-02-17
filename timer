@@ -1,0 +1,29 @@
+#!/bin/bash
+# 2021 danrobi, gpl v3
+# Credit: Roland Latour http://user.cavenet.com/rolandl/yad-timer.txt
+# Optional dependencies: beep, espeak and aplay
+#=======Start timing==========
+(
+for ((a=$LIMIT; a > 0; a--)); do
+# compute Hrs/Mins/Secs
+  let hour=($a / 3600)
+  let y=($hour * 60)
+  let min=($a / 60)
+  let min=($min - $y)
+  let y=($y * 60)
+  let z=($min * 60)
+  let sec=($a - $y - $z)
+# compute percentage of limit time, update progress bar
+  let y=($LIMIT - $a)
+  let y=($y * 100)
+  let pct=($y / $LIMIT)
+  echo $pct;sleep 0.99
+# off by 7 seconds in 3 hours
+done
+echo 100;echo "# $LABEL complete"
+# Notification area
+notify-send --urgency=low "$LABEL complete"
+# beep -f 1000 -n -f 2000 -n -f 1500 &
+# espeak "$LABEL has completed"
+# aplay -q ~/save/waves/cowbell.wav
+)
