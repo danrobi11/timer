@@ -1,0 +1,2 @@
+# timer
+Little timer script.
