@@ -1,7 +1,27 @@
 #!/bin/bash
-# 2021 danrobi, gpl v3
+# License 2021 danrobi, gpl v3
 # Credit: Roland Latour http://user.cavenet.com/rolandl/yad-timer.txt
-# Optional dependencies: beep, espeak and aplay
+# if there is a 1st parameter, use it, else assume 3 minutes
+if test -z "$1"; then
+  LIMIT=180
+  LABEL="Tea_Timer"
+else
+  LIMIT=$1
+# force mathematical evaluation, for syntax: timer minutes*60
+   let LIMIT=($LIMIT * 1)
+# eliminates error message: "integer expression expected"
+# getting strange results with leading zeros
+  let min=($LIMIT / 60)
+  LABEL=$min"_Minute_Timer"
+fi
+
+# if there is a 2nd parameter, use it as LABEL
+if test -z "$2"; then
+  true
+else
+  LABEL=$2
+  LABEL=`echo $LABEL|sed 's/ /_/g'`
+fi
 #=======Start timing==========
 (
 for ((a=$LIMIT; a > 0; a--)); do
@@ -27,3 +47,4 @@ notify-send --urgency=low "$LABEL complete"
 # espeak "$LABEL has completed"
 # aplay -q ~/save/waves/cowbell.wav
 )
+
