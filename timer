@@ -14,7 +14,6 @@ else
   let min=($LIMIT / 60)
   LABEL=$min"_Minute_Timer"
 fi
-
 # if there is a 2nd parameter, use it as LABEL
 if test -z "$2"; then
   true
